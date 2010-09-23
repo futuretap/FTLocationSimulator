@@ -50,6 +50,7 @@
  */
 
 #import "BreadcrumbViewController.h"
+#import "FTLocationSimulator.h"
 
 #define kTransitionDuration	0.75    // for the flip view animation
 
@@ -65,6 +66,11 @@
 {
     [super viewDidLoad];
     
+#ifdef FAKE_CORE_LOCATION
+	[FTLocationSimulator sharedInstance].mapView = self.map;
+	[FTLocationSimulator sharedInstance].delegate = self;
+	[[FTLocationSimulator sharedInstance] startUpdatingLocation];
+#else
     // Note: we are using Core Location directly to get the user location updates.
     // We could normally use MKMapView's user location update delegation but this does not work in
     // the background.  Plus we want "kCLLocationAccuracyBestForNavigation" which gives us a better accuracy.
@@ -79,7 +85,9 @@
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     
     [self.locationManager startUpdatingLocation];
-    
+
+#endif
+
     // create the container view which we will use for flip animation (centered horizontally)
 	containerView = [[UIView alloc] initWithFrame:self.view.bounds];
 	[self.view addSubview:self.containerView];
@@ -109,8 +117,13 @@
     
     self.containerView = nil;
     
-    self.locationManager.delegate = nil;
-    self.locationManager = nil;
+#ifdef FAKE_CORE_LOCATION
+	[FTLocationSimulator sharedInstance].mapView = nil;
+	[FTLocationSimulator sharedInstance].delegate = nil;
+#else
+	[self.locationManager stopUpdatingLocation];
+	self.locationManager.delegate = nil;
+#endif
     
     [flipButton release];
     [doneButton release];
@@ -128,8 +141,14 @@
     [flipButton release];
     [doneButton release];
     
-    self.locationManager.delegate = nil;
+#ifdef FAKE_CORE_LOCATION
+	[FTLocationSimulator sharedInstance].mapView = nil;
+	[FTLocationSimulator sharedInstance].delegate = nil;
+#else
+	[self.locationManager stopUpdatingLocation];
+	self.locationManager.delegate = nil;
     [locationManager release];
+#endif
     
     [super dealloc];
 }
@@ -146,27 +165,39 @@
     {
         if (!self.toggleBackgroundButton.isOn)
         {
+#ifdef FAKE_CORE_LOCATION
+			[[FTLocationSimulator sharedInstance] stopUpdatingLocation];
+			[FTLocationSimulator sharedInstance].delegate = nil;
+#else
             [self.locationManager stopUpdatingLocation];
             self.locationManager.delegate = nil;
+#endif
         }
     }
     else
     {
         if (!self.toggleBackgroundButton.isOn)
         {
+#ifdef FAKE_CORE_LOCATION
+			[FTLocationSimulator sharedInstance].delegate = self;
+			[[FTLocationSimulator sharedInstance] startUpdatingLocation];
+#else
             self.locationManager.delegate = self;
             [self.locationManager startUpdatingLocation];
+#endif
         }
     }
 }
 
 - (IBAction)toggleBestAccuracy:(id)sender
 {
+#ifndef FAKE_CORE_LOCATION
     UISwitch *accuracySwitch = (UISwitch *)sender;
     if (accuracySwitch.isOn)
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     else
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+#endif
 }
 
 // called when the user presses the 'i' icon to change the app settings
@@ -225,7 +256,7 @@
                 
                 // On the first location update only, zoom map to user location
                 MKCoordinateRegion region = 
-                MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 2000, 2000);
+                MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 10000, 10000);
                 [map setRegion:region animated:YES];
             }
             else
@@ -266,4 +297,15 @@
     return crumbView;
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+	if ([annotation isMemberOfClass:[MKUserLocation class]]) {
+#ifdef FAKE_CORE_LOCATION
+		return [[FTLocationSimulator sharedInstance] fakeUserLocationView];
+#else
+		return nil;
+#endif
+	}
+	// code to create views for other annotations
+	return nil;
+}	
 @end

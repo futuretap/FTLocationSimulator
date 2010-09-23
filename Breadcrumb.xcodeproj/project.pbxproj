@@ -26,6 +26,11 @@
 		53025D5311DD5352007F367B /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 53025D4C11DD5352007F367B /* iTunesArtwork */; };
 		53A6574011DBF7F900BEC507 /* BreadcrumbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53A6573C11DBF7F900BEC507 /* BreadcrumbViewController.xib */; };
 		53A6574111DBF7F900BEC507 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53A6573E11DBF7F900BEC507 /* MainWindow.xib */; };
+		AAA83AA4124B5BE400957D44 /* FTLocationSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA83AA3124B5BE400957D44 /* FTLocationSimulator.m */; };
+		AAA83AB0124B5D9300957D44 /* fakeLocations.kml in Resources */ = {isa = PBXBuildFile; fileRef = AAA83AAF124B5D9300957D44 /* fakeLocations.kml */; };
+		AAA83AB7124B5DFA00957D44 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA83AB6124B5DFA00957D44 /* RegexKitLite.m */; };
+		AAA83B5A124B62F400957D44 /* TrackingDot.png in Resources */ = {isa = PBXBuildFile; fileRef = AAA83B58124B62F400957D44 /* TrackingDot.png */; };
+		AAA83B5B124B62F400957D44 /* TrackingDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AAA83B59124B62F400957D44 /* TrackingDot@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +61,14 @@
 		53A6573D11DBF7F900BEC507 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BreadcrumbViewController.xib; sourceTree = "<group>"; };
 		53A6573F11DBF7F900BEC507 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Breadcrumb-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Breadcrumb-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AAA83AA2124B5BE400957D44 /* FTLocationSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTLocationSimulator.h; sourceTree = "<group>"; };
+		AAA83AA3124B5BE400957D44 /* FTLocationSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTLocationSimulator.m; sourceTree = "<group>"; };
+		AAA83AAA124B5D0300957D44 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		AAA83AAF124B5D9300957D44 /* fakeLocations.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = fakeLocations.kml; sourceTree = "<group>"; };
+		AAA83AB5124B5DFA00957D44 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		AAA83AB6124B5DFA00957D44 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		AAA83B58124B62F400957D44 /* TrackingDot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TrackingDot.png; sourceTree = "<group>"; };
+		AAA83B59124B62F400957D44 /* TrackingDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TrackingDot@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +90,9 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				AAA83AB9124B5E0000957D44 /* RegexKitLite */,
+				AAA83AA2124B5BE400957D44 /* FTLocationSimulator.h */,
+				AAA83AA3124B5BE400957D44 /* FTLocationSimulator.m */,
 				1A3C719E118F527000EE06ED /* Overlay */,
 				1D3623240D0F684500981E51 /* BreadcrumbAppDelegate.h */,
 				1D3623250D0F684500981E51 /* BreadcrumbAppDelegate.m */,
@@ -121,6 +137,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				AAA83AAA124B5D0300957D44 /* SynthesizeSingleton.h */,
 				32CA4F630368D1EE00C91783 /* Breadcrumb_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -130,6 +147,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AAA83AAF124B5D9300957D44 /* fakeLocations.kml */,
 				8D1107310486CEB800E47090 /* Breadcrumb-Info.plist */,
 				53025D4511DD5352007F367B /* images */,
 				53A6573C11DBF7F900BEC507 /* BreadcrumbViewController.xib */,
@@ -153,6 +171,8 @@
 		53025D4511DD5352007F367B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AAA83B58124B62F400957D44 /* TrackingDot.png */,
+				AAA83B59124B62F400957D44 /* TrackingDot@2x.png */,
 				53025D4611DD5352007F367B /* Icon-72.png */,
 				53025D4711DD5352007F367B /* Icon-Small-50.png */,
 				53025D4811DD5352007F367B /* Icon-Small.png */,
@@ -162,6 +182,15 @@
 				53025D4C11DD5352007F367B /* iTunesArtwork */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		AAA83AB9124B5E0000957D44 /* RegexKitLite */ = {
+			isa = PBXGroup;
+			children = (
+				AAA83AB5124B5DFA00957D44 /* RegexKitLite.h */,
+				AAA83AB6124B5DFA00957D44 /* RegexKitLite.m */,
+			);
+			name = RegexKitLite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +252,9 @@
 				53025D5111DD5352007F367B /* Icon.png in Resources */,
 				53025D5211DD5352007F367B /* Icon@2x.png in Resources */,
 				53025D5311DD5352007F367B /* iTunesArtwork in Resources */,
+				AAA83AB0124B5D9300957D44 /* fakeLocations.kml in Resources */,
+				AAA83B5A124B62F400957D44 /* TrackingDot.png in Resources */,
+				AAA83B5B124B62F400957D44 /* TrackingDot@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +270,8 @@
 				28D7ACF80DDB3853001CB0EB /* BreadcrumbViewController.m in Sources */,
 				1A3C719D118F4EEC00EE06ED /* CrumbPath.m in Sources */,
 				1A3C71A7118F65C400EE06ED /* CrumbPathView.m in Sources */,
+				AAA83AA4124B5BE400957D44 /* FTLocationSimulator.m in Sources */,
+				AAA83AB7124B5DFA00957D44 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +307,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Breadcrumb_Prefix.pch;
 				INFOPLIST_FILE = "Breadcrumb-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Breadcrumb;
+				SDKROOT = iphoneos4.1;
 			};
 			name = Debug;
 		};
@@ -285,7 +322,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Breadcrumb_Prefix.pch;
 				INFOPLIST_FILE = "Breadcrumb-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Breadcrumb;
+				SDKROOT = iphoneos4.1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

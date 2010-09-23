@@ -48,6 +48,7 @@
 #import "BreadcrumbAppDelegate.h"
 #import "BreadcrumbViewController.h"
 
+#import "FTLocationSimulator.h"
 @implementation BreadcrumbAppDelegate
 
 @synthesize window;
