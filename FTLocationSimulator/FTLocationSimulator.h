@@ -2,8 +2,14 @@
 //  FTLocationSimulator.h
 //
 //  Created by Ortwin Gentz on 23.09.2010.
-//  Copyright 2010 FutureTap. All rights reserved.
+//  Copyright 2010 FutureTap http://www.futuretap.com
+//  All rights reserved.
 //
+//  Permission is given to use this source code file without charge in any
+//  project, commercial or otherwise, entirely at your risk, with the condition
+//  that any redistribution (in part or whole) of source code must retain
+//  this copyright and permission notice. Attribution in compiled projects is
+//  appreciated but not required.
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
