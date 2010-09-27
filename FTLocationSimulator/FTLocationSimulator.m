@@ -58,7 +58,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 	if (self.mapView) {
 		MKAnnotationView *userLocationView = [self.mapView viewForAnnotation:self.mapView.userLocation];
 		[userLocationView.superview sendSubviewToBack:userLocationView];
-		CGRect frame = userLocationView.frame;
+		
+ 		CGRect frame = userLocationView.frame;
 		frame.origin = [self.mapView convertCoordinate:self.location.coordinate toPointToView:userLocationView.superview];
 		frame.origin.x -= 10;
 		frame.origin.y -= 10;
@@ -66,6 +67,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 		[UIView setAnimationDuration:FAKE_CORE_LOCATION_UPDATE_INTERVAL];
 		userLocationView.frame = frame;
 		[UIView commitAnimations];
+
 		self.mapView.userLocation.coordinate = self.location.coordinate;
 		
 	}
