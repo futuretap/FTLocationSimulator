@@ -15,7 +15,9 @@ In a nutshell, these are the necessary steps:
 
 1. Add the FTLocationSimulator directory to your project
 
-2. `#ifdef` all `CMLocationManager` occurences like the following:
+2. Add -licucore to "Other Linker flags" in the project/target settings (this is needed for RegExKitLite)
+
+3. `#ifdef` all `CMLocationManager` occurences like the following:
 
 		#ifdef FAKE_CORE_LOCATION
 			[FTLocationSimulator sharedInstance].mapView = self.map;
@@ -29,11 +31,11 @@ In a nutshell, these are the necessary steps:
 
 	
 
-3. `#include "FTLocationSimulator.h"` where necessary.
+4. `#include "FTLocationSimulator.h"` where necessary.
 
-4. Set the `mapView` and `delegate` properties as shown above.
+5. Set the `mapView` and `delegate` properties as shown above.
 
-5. If you're using MapKit, put the following into your `MKMapViewDelegate`:
+6. If you're using MapKit, put the following into your `MKMapViewDelegate`:
 
 		- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 			if ([annotation isMemberOfClass:[MKUserLocation class]]) {
@@ -46,9 +48,9 @@ In a nutshell, these are the necessary steps:
 			// Your code for regular annotation views
 		}
 		
-6. Adjust `FAKE_CORE_LOCATION_UPDATE_INTERVAL` in `FTLocationSimulator.h` if the location updates are too fast.
+7. Adjust `FAKE_CORE_LOCATION_UPDATE_INTERVAL` in `FTLocationSimulator.h` if the location updates are too fast.
 
-7. Change the `fakeLocations.kml` if needed (currently, it includes a route from Cupertino to San Francisco). To create a new fakeLocations.kml, use Google Earth and create a route. Send the route via email and take the "Route.kmz" file out of the draft mail. kmz is zipped kml. Then unzip that file using "unzip Route.kml" on the command line. The parser is not a generic KML parser but is only able to parse these specific Google Earth KML files.
+8. Change the `fakeLocations.kml` if needed (currently, it includes a route from Cupertino to San Francisco). To create a new fakeLocations.kml, use Google Earth and create a route. Send the route via email and take the "Route.kmz" file out of the draft mail. kmz is zipped kml. Then unzip that file using "unzip Route.kml" on the command line. The parser is not a generic KML parser but is only able to parse these specific Google Earth KML files.
 
 Implemented methods and properties
 ----------------------------------
