@@ -74,7 +74,7 @@ static FTLocationSimulator *sharedInstance = nil;
 		userLocationView.frame = frame;
 		[UIView commitAnimations];
 
-		self.mapView.userLocation.coordinate = self.location.coordinate;
+		[self.mapView.userLocation setCoordinate:self.location.coordinate];
 
 	}
 
@@ -110,7 +110,7 @@ static FTLocationSimulator *sharedInstance = nil;
 		return nil;
 	}
 
-	self.mapView.userLocation.coordinate = self.location.coordinate;
+	[self.mapView.userLocation setCoordinate:self.location.coordinate];
 	MKAnnotationView *userLocationView = [[MKAnnotationView alloc] initWithAnnotation:self.mapView.userLocation reuseIdentifier:nil];
 	[userLocationView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TrackingDot.png"]]];
 	userLocationView.centerOffset = CGPointMake(-10, -10);
