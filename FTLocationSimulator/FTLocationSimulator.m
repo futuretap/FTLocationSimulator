@@ -12,12 +12,12 @@
 //  appreciated but not required.
 
 #import "FTLocationSimulator.h"
-#import "SynthesizeSingleton.h"
 #import "RegexKitLite.h"
 
-@implementation FTLocationSimulator
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
+static FTLocationSimulator *sharedInstance = nil;
+
+@implementation FTLocationSimulator
 
 @synthesize location;
 @synthesize delegate;
@@ -41,14 +41,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 																				pathForResource:@"fakeLocations"
 																				ofType:@"kml"]];
 		NSString *coordinatesString = [fakeLocationsFile stringByMatching:@"<coordinates>[^-0-9]*(.+?)[^-0-9]*</coordinates>"
-																  options:RKLMultiline|RKLDotAll 
-																  inRange:NSMakeRange(0, fakeLocationsFile.length) 
+																  options:RKLMultiline|RKLDotAll
+																  inRange:NSMakeRange(0, fakeLocationsFile.length)
 																  capture:1
 																	error:NULL];
 		fakeLocations = [[coordinatesString componentsSeparatedByString:@" "] retain];
 		[fakeLocationsFile release];
 	}
-	
+
 	// select a new fake location
 	NSArray *latLong = [[fakeLocations objectAtIndex:index] componentsSeparatedByString:@","];
 	CLLocationDegrees lat = [[latLong objectAtIndex:1] doubleValue];
@@ -59,12 +59,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 										 horizontalAccuracy:0
 										   verticalAccuracy:0
 												  timestamp:[NSDate date]] autorelease];
-	
+
 	// update the userlocation view
 	if (self.mapView) {
 		MKAnnotationView *userLocationView = [self.mapView viewForAnnotation:self.mapView.userLocation];
 		[userLocationView.superview sendSubviewToBack:userLocationView];
-		
+
  		CGRect frame = userLocationView.frame;
 		frame.origin = [self.mapView convertCoordinate:self.location.coordinate toPointToView:userLocationView.superview];
 		frame.origin.x -= 10;
@@ -75,7 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 		[UIView commitAnimations];
 
 		self.mapView.userLocation.coordinate = self.location.coordinate;
-		
+
 	}
 
 	// inform the locationManager delegate
@@ -84,14 +84,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 				   didUpdateToLocation:self.location
 						  fromLocation:oldLocation];
 	}
-	
+
 	// iterate to the next fake location
 	if (updatingLocation) {
 		index++;
 		if (index == fakeLocations.count) {
 			index = 0;
 		}
-	
+
 		[self performSelector:@selector(fakeNewLocation) withObject:nil afterDelay:FAKE_CORE_LOCATION_UPDATE_INTERVAL];
 	}
 }
@@ -109,12 +109,59 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 	if (!self.mapView) {
 		return nil;
 	}
-	
+
 	self.mapView.userLocation.coordinate = self.location.coordinate;
 	MKAnnotationView *userLocationView = [[MKAnnotationView alloc] initWithAnnotation:self.mapView.userLocation reuseIdentifier:nil];
 	[userLocationView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TrackingDot.png"]]];
 	userLocationView.centerOffset = CGPointMake(-10, -10);
 	return userLocationView;
 }
+
+
+// ==================================================================
+#pragma mark -
+#pragma mark Singleton Definitions
+// ==================================================================
+
++ (FTLocationSimulator *)sharedInstance {
+	@synchronized(self) {
+		if (sharedInstance == nil) {
+			sharedInstance = [[self alloc] init];
+		}
+	}
+
+	return sharedInstance;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+	@synchronized(self) {
+		if (sharedInstance == nil) {
+			sharedInstance = [super allocWithZone:zone];
+			return sharedInstance;
+		}
+	}
+
+	return nil;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+	return self;
+}
+
+- (id)retain {
+	return self;
+}
+
+- (NSUInteger)retainCount {
+	return NSUIntegerMax;
+}
+
+- (void)release {
+}
+
+- (id)autorelease {
+	return self;
+}
+
 
 @end
