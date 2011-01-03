@@ -12,7 +12,7 @@
 //  appreciated but not required.
 
 #import "FTLocationSimulator.h"
-#import "SynthesizeSingleton.h"
+#import "FTSynthesizeSingleton.h"
 #import "RegexKitLite.h"
 
 @implementation FTLocationSimulator

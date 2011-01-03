@@ -63,7 +63,7 @@
 		8D1107310486CEB800E47090 /* Breadcrumb-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Breadcrumb-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AA4F71A31251061F0011D4CB /* FTLocationSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTLocationSimulator.h; path = ../FTLocationSimulator/FTLocationSimulator.h; sourceTree = SOURCE_ROOT; };
 		AA4F71A41251061F0011D4CB /* FTLocationSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTLocationSimulator.m; path = ../FTLocationSimulator/FTLocationSimulator.m; sourceTree = SOURCE_ROOT; };
-		AA4F71A6125106250011D4CB /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = ../FTLocationSimulator/SynthesizeSingleton.h; sourceTree = SOURCE_ROOT; };
+		AA4F71A6125106250011D4CB /* FTSynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTSynthesizeSingleton.h; path = ../FTLocationSimulator/FTSynthesizeSingleton.h; sourceTree = SOURCE_ROOT; };
 		AA4F71A7125106310011D4CB /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = ../FTLocationSimulator/RegexKitLite.h; sourceTree = SOURCE_ROOT; };
 		AA4F71A8125106310011D4CB /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = ../FTLocationSimulator/RegexKitLite.m; sourceTree = SOURCE_ROOT; };
 		AA4F71AA1251063B0011D4CB /* fakeLocations.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = fakeLocations.kml; path = ../FTLocationSimulator/fakeLocations.kml; sourceTree = SOURCE_ROOT; };
@@ -186,7 +186,7 @@
 				AAA83AB9124B5E0000957D44 /* RegexKitLite */,
 				AA4F71A31251061F0011D4CB /* FTLocationSimulator.h */,
 				AA4F71A41251061F0011D4CB /* FTLocationSimulator.m */,
-				AA4F71A6125106250011D4CB /* SynthesizeSingleton.h */,
+				AA4F71A6125106250011D4CB /* FTSynthesizeSingleton.h */,
 				AA4F71AA1251063B0011D4CB /* fakeLocations.kml */,
 			);
 			name = FTLocationSimulator;
