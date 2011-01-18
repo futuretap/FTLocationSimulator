@@ -30,6 +30,7 @@
 	NSArray				*fakeLocations;
 	CLLocation			*location;
 	NSInteger			index;
+	NSTimeInterval		updateInterval;
 }
 
 @property (nonatomic, retain) CLLocation *location;
