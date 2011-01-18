@@ -37,9 +37,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 - (void)fakeNewLocation {
 	// read and parse the KML file
 	if (!fakeLocations) {
-		NSString *fakeLocationsFile = [[NSString alloc] initWithContentsOfFile:[[NSBundle mainBundle]
-																				pathForResource:@"fakeLocations"
-																				ofType:@"kml"]];
+		NSString *fakeLocationsPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"FakeLocationsRoute"];
+		if(!fakeLocationsPath)
+			fakeLocationsPath = [[NSBundle mainBundle] pathForResource:@"fakeLocations" ofType:@"kml"];
+		
+		NSString *fakeLocationsFile = [[NSString alloc] initWithContentsOfFile:fakeLocationsPath];
 		NSString *coordinatesString = [fakeLocationsFile stringByMatching:@"<coordinates>[^-0-9]*(.+?)[^-0-9]*</coordinates>"
 																  options:RKLMultiline|RKLDotAll 
 																  inRange:NSMakeRange(0, fakeLocationsFile.length) 
@@ -47,6 +49,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 																	error:NULL];
 		fakeLocations = [[coordinatesString componentsSeparatedByString:@" "] retain];
 		[fakeLocationsFile release];
+		
+		if([[NSUserDefaults standardUserDefaults] objectForKey:@"FakeLocationsUpdateInterval"])
+			updateInterval = [[NSUserDefaults standardUserDefaults] doubleForKey:@"FakeLocationsUpdateInterval"];
+		else
+			updateInterval = FAKE_CORE_LOCATION_UPDATE_INTERVAL;
 	}
 	
 	// select a new fake location
@@ -70,7 +77,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 		frame.origin.x -= 10;
 		frame.origin.y -= 10;
 		[UIView beginAnimations:@"fakeUserLocation" context:nil];
-		[UIView setAnimationDuration:FAKE_CORE_LOCATION_UPDATE_INTERVAL];
+		[UIView setAnimationDuration:updateInterval];
 		userLocationView.frame = frame;
 		[UIView commitAnimations];
 
@@ -91,7 +98,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 			index = 0;
 		}
 	
-		[self performSelector:@selector(fakeNewLocation) withObject:nil afterDelay:FAKE_CORE_LOCATION_UPDATE_INTERVAL];
+		[self performSelector:@selector(fakeNewLocation) withObject:nil afterDelay:updateInterval];
 	}
 }
 
