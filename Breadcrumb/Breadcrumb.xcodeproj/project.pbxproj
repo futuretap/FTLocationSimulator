@@ -26,6 +26,7 @@
 		53025D5311DD5352007F367B /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 53025D4C11DD5352007F367B /* iTunesArtwork */; };
 		53A6574011DBF7F900BEC507 /* BreadcrumbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53A6573C11DBF7F900BEC507 /* BreadcrumbViewController.xib */; };
 		53A6574111DBF7F900BEC507 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53A6573E11DBF7F900BEC507 /* MainWindow.xib */; };
+		AA1860E6132A9A63008B125F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AA1860E5132A9A63008B125F /* README.md */; };
 		AA4F71A51251061F0011D4CB /* FTLocationSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F71A41251061F0011D4CB /* FTLocationSimulator.m */; };
 		AA4F71A9125106310011D4CB /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4F71A8125106310011D4CB /* RegexKitLite.m */; };
 		AA4F71AB1251063B0011D4CB /* fakeLocations.kml in Resources */ = {isa = PBXBuildFile; fileRef = AA4F71AA1251063B0011D4CB /* fakeLocations.kml */; };
@@ -57,10 +58,11 @@
 		53025D4A11DD5352007F367B /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		53025D4B11DD5352007F367B /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		53025D4C11DD5352007F367B /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		532F37D4121C38EB0025B0F4 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		532F37D4121C38EB0025B0F4 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ReadMe.txt; path = ../ReadMe.txt; sourceTree = "<group>"; };
 		53A6573D11DBF7F900BEC507 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BreadcrumbViewController.xib; sourceTree = "<group>"; };
 		53A6573F11DBF7F900BEC507 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Breadcrumb-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Breadcrumb-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AA1860E5132A9A63008B125F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		AA4F71A31251061F0011D4CB /* FTLocationSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTLocationSimulator.h; path = ../FTLocationSimulator/FTLocationSimulator.h; sourceTree = SOURCE_ROOT; };
 		AA4F71A41251061F0011D4CB /* FTLocationSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTLocationSimulator.m; path = ../FTLocationSimulator/FTLocationSimulator.m; sourceTree = SOURCE_ROOT; };
 		AA4F71A6125106250011D4CB /* FTSynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTSynthesizeSingleton.h; path = ../FTLocationSimulator/FTSynthesizeSingleton.h; sourceTree = SOURCE_ROOT; };
@@ -87,16 +89,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* Breadcrumb */ = {
 			isa = PBXGroup;
 			children = (
-				AA491143125104DF005E0295 /* FTLocationSimulator */,
+				532F37D4121C38EB0025B0F4 /* ReadMe.txt */,
 				1A3C719E118F527000EE06ED /* Overlay */,
 				1D3623240D0F684500981E51 /* BreadcrumbAppDelegate.h */,
 				1D3623250D0F684500981E51 /* BreadcrumbAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* BreadcrumbViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* BreadcrumbViewController.m */,
 			);
+			name = Breadcrumb;
 			path = Classes;
 			sourceTree = "<group>";
 		};
@@ -122,8 +125,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				532F37D4121C38EB0025B0F4 /* ReadMe.txt */,
-				080E96DDFE201D6D7F000001 /* Classes */,
+				AA1860E5132A9A63008B125F /* README.md */,
+				AA491143125104DF005E0295 /* FTLocationSimulator */,
+				080E96DDFE201D6D7F000001 /* Breadcrumb */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -190,6 +194,7 @@
 				AA4F71AA1251063B0011D4CB /* fakeLocations.kml */,
 			);
 			name = FTLocationSimulator;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		AAA83AB9124B5E0000957D44 /* RegexKitLite */ = {
@@ -263,6 +268,7 @@
 				AAA83B5A124B62F400957D44 /* TrackingDot.png in Resources */,
 				AAA83B5B124B62F400957D44 /* TrackingDot@2x.png in Resources */,
 				AA4F71AB1251063B0011D4CB /* fakeLocations.kml in Resources */,
+				AA1860E6132A9A63008B125F /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

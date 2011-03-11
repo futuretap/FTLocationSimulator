@@ -54,6 +54,7 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
 
 #import "CrumbPath.h"
 #import "CrumbPathView.h"
+#import "FTLocationSimulator.h"
 
 @interface BreadcrumbViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
@@ -68,8 +69,12 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
     
     CrumbPath *crumbs;
     CrumbPathView *crumbView;
-    
+	    
+#ifdef FAKE_CORE_LOCATION
+	FTLocationSimulator *locationManager;
+#else
     CLLocationManager *locationManager;
+#endif
 }
 
 @property (nonatomic, retain) UIBarButtonItem *flipButton;
@@ -81,8 +86,13 @@ Copyright (C) 2010 Apple Inc. All Rights Reserved.
 @property (nonatomic, retain) IBOutlet UIView *instructionsView;
 @property (nonatomic, retain) IBOutlet UISwitch *toggleBackgroundButton;
 
+#ifdef FAKE_CORE_LOCATION
+@property (nonatomic, retain) FTLocationSimulator *locationManager;
+#else
 @property (nonatomic, retain) CLLocationManager *locationManager;
+#endif
 
+- (IBAction)distanceFilterValueChanged:(id)sender;
 - (void)switchToBackgroundMode:(BOOL)background;
 - (IBAction)toggleBestAccuracy:(id)sender;
 

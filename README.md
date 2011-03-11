@@ -15,32 +15,26 @@ In a nutshell, these are the necessary steps:
 
 1. Add the FTLocationSimulator directory to your project
 
-2. Add -licucore to "Other Linker flags" in the project/target settings (this is needed for RegExKitLite)
+2. Add `-licucore` to "Other Linker flags" in the project/target settings (this is needed for RegExKitLite)
 
-3. `#ifdef` all `CMLocationManager` occurences like the following:
+3. `#ifdef` all occurences of "`CLLocationManager`"  like the following:
 
 		#ifdef FAKE_CORE_LOCATION
-			[FTLocationSimulator sharedInstance].mapView = self.map;
-			[FTLocationSimulator sharedInstance].delegate = self;
-			[[FTLocationSimulator sharedInstance] startUpdatingLocation];
+		    self.locationManager = [[[FTLocationSimulator alloc] init] autorelease];
 		#else
 		    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
-		    self.locationManager.delegate = self;    
-  			[self.locationManager startUpdatingLocation];
 		#endif
 
-	
+   Only the alloc/init call has to be ifdef'ed. All further occurences of your locationManager object don't need to be changed since `FTLocationSimulator` uses the same interface as `CLLocationManager`.
 
 4. `#include "FTLocationSimulator.h"` where necessary.
 
-5. Set the `mapView` and `delegate` properties as shown above.
-
-6. If you're using MapKit, put the following into your `MKMapViewDelegate`:
+5. If you're using MapKit, set the `mapView` property with your `MKMapView` and set it to nil if you're done with the map. Then, put the following into your `MKMapViewDelegate`:
 
 		- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 			if ([annotation isMemberOfClass:[MKUserLocation class]]) {
 		#ifdef FAKE_CORE_LOCATION
-				return [[FTLocationSimulator sharedInstance] fakeUserLocationView];
+				return self.locationManager.fakeUserLocationView;
 		#else
 				return nil;
 		#endif
@@ -48,36 +42,42 @@ In a nutshell, these are the necessary steps:
 			// Your code for regular annotation views
 		}
 		
-7. Adjust `FAKE_CORE_LOCATION_UPDATE_INTERVAL` in `FTLocationSimulator.h` if the location updates are too fast.
+6. Adjust `FAKE_CORE_LOCATION_UPDATE_INTERVAL` in `FTLocationSimulator.h` if the location updates are too fast.
 
-8. Change the `fakeLocations.kml` if needed (currently, it includes a route from Cupertino to San Francisco). To create a new fakeLocations.kml, use Google Earth and create a route. Send the route via email and take the "Route.kmz" file out of the draft mail. kmz is zipped kml. Then unzip that file using "unzip Route.kml" on the command line. The parser is not a generic KML parser but is only able to parse these specific Google Earth KML files.
+7. Change the `fakeLocations.kml` if needed (currently, it includes a route from Cupertino to San Francisco). To create a new fakeLocations.kml, use Google Earth and create a route. Send the route via email and take the "Route.kmz" file out of the draft mail. The kmz format is zipped kml. So unzip that file using "unzip Route.kml" on the command line.
+
+    The parser is not a generic KML parser but is only able to parse these specific Google Earth KML files.
+
 
 Implemented methods and properties
 ----------------------------------
 
-From CLLocationManager:
+From `CLLocationManager`:
 
-- delegate
-- location (for polling updates)
-- -startUpdatingLocations
-- -stopUpdatingLocations
+- `delegate`
+- `location` (for polling updates)
+- `distanceFilter`
+- `-startUpdatingLocations`
+- `-stopUpdatingLocations`
 
-CLLocationManagerDelegate:
 
-- -locationManager:didUpdateToLocation:fromLocation: (is messaged from FTLocationSimulator)
+`CLLocationManagerDelegate`:
 
-CLLocation objects:
+- `-locationManager:didUpdateToLocation:fromLocation:` (is sent by FTLocationSimulator)
 
-- coordinate
-- location
-- timestamp
+
+`CLLocation` objects:
+
+- `coordinate`
+- `location`
+- `timestamp`
 
 
 Known Issues
 ------------
 - In Google's KML files the distance between waypoints varies. For straight roads it's larger than for curvy roads. FTLocationSimulator does not consider this difference, so the speed on the KML route varies.
 - The faked userLocation view does not incorporate the GPS halo animation.
-- distanceFilter, heading, course, altitude, speed and accuracy are not implemented (some of them might be technically possible)
+- heading, course, altitude, speed and accuracy are not implemented (some of them might be technically possible)
 
 Collaboration
 -------------

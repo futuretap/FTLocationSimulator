@@ -29,16 +29,48 @@
 	BOOL				updatingLocation;
 	NSArray				*fakeLocations;
 	CLLocation			*location;
+	CLLocation			*oldLocation;
 	NSInteger			index;
 	NSTimeInterval		updateInterval;
+	CLLocationDistance	distanceFilter;
+	NSString			*purpose;
 }
 
 @property (nonatomic, retain) CLLocation *location;
+@property (nonatomic, retain) CLLocation *oldLocation;
 @property (nonatomic, assign) id<CLLocationManagerDelegate> delegate;
 @property (nonatomic, retain) MKMapView *mapView;
+@property (nonatomic, readonly) MKAnnotationView* fakeUserLocationView;
 
 + (FTLocationSimulator*)sharedInstance;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;
-- (MKAnnotationView*)fakeUserLocationView;
+
+
+
+// dummy methods to keep the CLLocationManager interface
++ (BOOL)locationServicesEnabled;
++ (BOOL)headingAvailable;
++ (BOOL)significantLocationChangeMonitoringAvailable;
++ (BOOL)regionMonitoringAvailable;
++ (BOOL)regionMonitoringEnabled;
++ (CLAuthorizationStatus)authorizationStatus;
+@property(readonly, nonatomic) BOOL locationServicesEnabled;
+@property(copy, nonatomic) NSString *purpose;
+@property(assign, nonatomic) CLLocationDistance distanceFilter;
+@property(assign, nonatomic) CLLocationAccuracy desiredAccuracy;
+@property(readonly, nonatomic) BOOL headingAvailable;
+@property(assign, nonatomic) CLLocationDegrees headingFilter;
+@property(assign, nonatomic) CLDeviceOrientation headingOrientation;
+@property(readonly, nonatomic) CLHeading *heading;
+@property(readonly, nonatomic) CLLocationDistance maximumRegionMonitoringDistance;
+@property(readonly, nonatomic) NSSet *monitoredRegions;
+- (void)startUpdatingHeading;
+- (void)stopUpdatingHeading;
+- (void)dismissHeadingCalibrationDisplay;
+- (void)startMonitoringSignificantLocationChanges;
+- (void)stopMonitoringSignificantLocationChanges;
+- (void)startMonitoringForRegion:(CLRegion*)region desiredAccuracy:(CLLocationAccuracy)accuracy;
+- (void)stopMonitoringForRegion:(CLRegion*)region;
+
 @end

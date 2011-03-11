@@ -50,7 +50,6 @@
  */
 
 #import "BreadcrumbViewController.h"
-#import "FTLocationSimulator.h"
 
 #define kTransitionDuration	0.75    // for the flip view animation
 
@@ -66,16 +65,16 @@
 {
     [super viewDidLoad];
     
-#ifdef FAKE_CORE_LOCATION
-	[FTLocationSimulator sharedInstance].mapView = self.map;
-	[FTLocationSimulator sharedInstance].delegate = self;
-	[[FTLocationSimulator sharedInstance] startUpdatingLocation];
-#else
     // Note: we are using Core Location directly to get the user location updates.
     // We could normally use MKMapView's user location update delegation but this does not work in
     // the background.  Plus we want "kCLLocationAccuracyBestForNavigation" which gives us a better accuracy.
     //
+#ifdef FAKE_CORE_LOCATION
+    self.locationManager = [[[FTLocationSimulator alloc] init] autorelease];
+	self.locationManager.mapView = self.map;
+#else
     self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+#endif
     self.locationManager.delegate = self; // Tells the location manager to send updates to this object
     
     // Use the highest possible accuracy and combine it with additional sensor data.
@@ -83,10 +82,8 @@
     // position information at all times and are intended to be used only while the device is plugged in.
     //
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    
-    [self.locationManager startUpdatingLocation];
 
-#endif
+    [self.locationManager startUpdatingLocation];
 
     // create the container view which we will use for flip animation (centered horizontally)
 	containerView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -118,12 +115,10 @@
     self.containerView = nil;
     
 #ifdef FAKE_CORE_LOCATION
-	[FTLocationSimulator sharedInstance].mapView = nil;
-	[FTLocationSimulator sharedInstance].delegate = nil;
-#else
+	self.locationManager.mapView = nil;
+#endif
 	[self.locationManager stopUpdatingLocation];
 	self.locationManager.delegate = nil;
-#endif
     
     [flipButton release];
     [doneButton release];
@@ -142,13 +137,11 @@
     [doneButton release];
     
 #ifdef FAKE_CORE_LOCATION
-	[FTLocationSimulator sharedInstance].mapView = nil;
-	[FTLocationSimulator sharedInstance].delegate = nil;
-#else
+	self.locationManager.mapView = nil;
+#endif
 	[self.locationManager stopUpdatingLocation];
 	self.locationManager.delegate = nil;
     [locationManager release];
-#endif
     
     [super dealloc];
 }
@@ -157,6 +150,9 @@
 #pragma mark -
 #pragma mark Actions
 
+- (void)distanceFilterValueChanged:(UISlider*)sender {
+	self.locationManager.distanceFilter = sender.value;
+}
 // called them the app is moved to the background (user presses the home button) or to the foreground 
 //
 - (void)switchToBackgroundMode:(BOOL)background
@@ -165,39 +161,27 @@
     {
         if (!self.toggleBackgroundButton.isOn)
         {
-#ifdef FAKE_CORE_LOCATION
-			[[FTLocationSimulator sharedInstance] stopUpdatingLocation];
-			[FTLocationSimulator sharedInstance].delegate = nil;
-#else
             [self.locationManager stopUpdatingLocation];
             self.locationManager.delegate = nil;
-#endif
         }
     }
     else
     {
         if (!self.toggleBackgroundButton.isOn)
         {
-#ifdef FAKE_CORE_LOCATION
-			[FTLocationSimulator sharedInstance].delegate = self;
-			[[FTLocationSimulator sharedInstance] startUpdatingLocation];
-#else
             self.locationManager.delegate = self;
             [self.locationManager startUpdatingLocation];
-#endif
         }
     }
 }
 
 - (IBAction)toggleBestAccuracy:(id)sender
 {
-#ifndef FAKE_CORE_LOCATION
     UISwitch *accuracySwitch = (UISwitch *)sender;
     if (accuracySwitch.isOn)
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     else
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-#endif
 }
 
 // called when the user presses the 'i' icon to change the app settings
@@ -300,7 +284,7 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	if ([annotation isMemberOfClass:[MKUserLocation class]]) {
 #ifdef FAKE_CORE_LOCATION
-		return [[FTLocationSimulator sharedInstance] fakeUserLocationView];
+		return self.locationManager.fakeUserLocationView;
 #else
 		return nil;
 #endif

@@ -20,7 +20,10 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 
 @synthesize location;
+@synthesize oldLocation;
 @synthesize delegate;
+@synthesize distanceFilter;
+@synthesize purpose;
 @synthesize mapView;
 
 - (void)dealloc
@@ -31,6 +34,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 	[location release];
 	location = nil;
 
+	[purpose release];
+	purpose = nil;
+	
 	[super dealloc];
 }
 
@@ -60,7 +66,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 	NSArray *latLong = [[fakeLocations objectAtIndex:index] componentsSeparatedByString:@","];
 	CLLocationDegrees lat = [[latLong objectAtIndex:1] doubleValue];
 	CLLocationDegrees lon = [[latLong objectAtIndex:0] doubleValue];
-	CLLocation *oldLocation = [[self.location retain] autorelease];
 	self.location = [[[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(lat, lon)
 												   altitude:0
 										 horizontalAccuracy:0
@@ -78,6 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 		frame.origin.y -= 10;
 		[UIView beginAnimations:@"fakeUserLocation" context:nil];
 		[UIView setAnimationDuration:updateInterval];
+		[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 		userLocationView.frame = frame;
 		[UIView commitAnimations];
 
@@ -85,10 +91,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 	}
 
 	// inform the locationManager delegate
-	if([self.delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
+	if((!self.oldLocation || [self.location distanceFromLocation:oldLocation] > distanceFilter) &&
+	   [self.delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
 		[self.delegate locationManager:nil
 				   didUpdateToLocation:self.location
 						  fromLocation:oldLocation];
+		self.oldLocation = self.location;
 	}
 	
 	// iterate to the next fake location
@@ -123,4 +131,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 	return userLocationView;
 }
 
+
+// dummy methods to keep the CLLocationManager interface
++ (BOOL)locationServicesEnabled {
+	return [FTLocationSimulator sharedInstance].locationServicesEnabled;
+}
++ (BOOL)headingAvailable {
+	return NO;
+}
++ (BOOL)significantLocationChangeMonitoringAvailable {
+	return NO;
+}
++ (BOOL)regionMonitoringAvailable {
+	return NO;
+}
++ (BOOL)regionMonitoringEnabled {
+	return NO;
+}
++ (CLAuthorizationStatus)authorizationStatus {
+	return kCLAuthorizationStatusAuthorized;
+}
+- (BOOL)locationServicesEnabled {
+	return updatingLocation;
+}
+- (CLLocationAccuracy) desiredAccuracy {
+	return kCLLocationAccuracyBest;
+}
+- (void)setDesiredAccuracy:(CLLocationAccuracy)desiredAccuracy {
+}
+- (BOOL)headingAvailable {
+	return NO;
+}
+- (CLLocationDegrees) headingFilter {
+	return kCLHeadingFilterNone;
+}
+- (void)setHeadingFilter:(CLLocationDegrees)headingFilter {
+}
+- (CLDeviceOrientation) headingOrientation {
+	return CLDeviceOrientationPortrait;
+}
+- (void)setHeadingOrientation:(CLDeviceOrientation)headingOrientation {
+}
+- (CLHeading*) heading {
+	return nil;
+}
+- (CLLocationDistance) maximumRegionMonitoringDistance {
+	return kCLErrorRegionMonitoringFailure;
+}
+- (NSSet*)monitoredRegions {
+	return nil;
+}
+- (void)startUpdatingHeading {
+}
+- (void)stopUpdatingHeading {
+}
+- (void)dismissHeadingCalibrationDisplay {
+}
+- (void)startMonitoringSignificantLocationChanges {
+}
+- (void)stopMonitoringSignificantLocationChanges {
+}
+- (void)startMonitoringForRegion:(CLRegion*)region desiredAccuracy:(CLLocationAccuracy)accuracy {
+}
+- (void)stopMonitoringForRegion:(CLRegion*)region {
+}
 @end

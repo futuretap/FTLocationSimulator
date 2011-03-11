@@ -56,7 +56,7 @@
 
 - (id)initWithCenterCoordinate:(CLLocationCoordinate2D)coord
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
         // initialize point storage and place this first coordinate in it
         pointSpace = INITIAL_POINT_SPACE;
