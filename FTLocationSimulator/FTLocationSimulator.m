@@ -53,7 +53,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 																  inRange:NSMakeRange(0, fakeLocationsFile.length) 
 																  capture:1
 																	error:NULL];
-		fakeLocations = [[coordinatesString componentsSeparatedByString:@" "] retain];
+        NSScanner *scanner = [NSScanner scannerWithString:coordinatesString];
+        while ([scanner isAtEnd] == NO) {
+            NSString *coordinate = nil;
+            [scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&coordinate];
+            if (fakeLocations == nil)
+                fakeLocations = [[NSMutableArray alloc] init];
+            [(NSMutableArray*)fakeLocations addObject:coordinate];
+        }
 		[fakeLocationsFile release];
 		
 		if([[NSUserDefaults standardUserDefaults] objectForKey:@"FakeLocationsUpdateInterval"])
