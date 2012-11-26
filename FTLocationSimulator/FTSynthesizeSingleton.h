@@ -14,55 +14,12 @@
 
 #define SYNTHESIZE_SINGLETON_FOR_CLASS(classname) \
 \
-static classname *sharedInstance = nil; \
-\
 + (classname *)sharedInstance \
 { \
-@synchronized(self) \
-{ \
-if (sharedInstance == nil) \
-{ \
-sharedInstance = [[self alloc] init]; \
-} \
-} \
-\
-return sharedInstance; \
-} \
-\
-+ (id)allocWithZone:(NSZone *)zone \
-{ \
-@synchronized(self) \
-{ \
-if (sharedInstance == nil) \
-{ \
-sharedInstance = [super allocWithZone:zone]; \
-return sharedInstance; \
-} \
-} \
-\
-return nil; \
-} \
-\
-- (id)copyWithZone:(NSZone *)zone \
-{ \
-return self; \
-} \
-\
-- (id)retain \
-{ \
-return self; \
-} \
-\
-- (NSUInteger)retainCount \
-{ \
-return NSUIntegerMax; \
-} \
-\
-- (void)release \
-{ \
-} \
-\
-- (id)autorelease \
-{ \
-return self; \
+static classname *singleton; \
+static dispatch_once_t onceToken; \
+dispatch_once(&onceToken, ^{ \
+singleton = [[classname alloc] init]; \
+}); \
+return singleton; \
 }

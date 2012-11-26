@@ -47,7 +47,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FTLocationSimulator)
 		if(!fakeLocationsPath)
 			fakeLocationsPath = [[NSBundle mainBundle] pathForResource:@"fakeLocations" ofType:@"kml"];
 		
-		NSString *fakeLocationsFile = [[NSString alloc] initWithContentsOfFile:fakeLocationsPath];
+        NSError *error = nil;
+        NSString *fakeLocationsFile = [[NSString alloc] initWithContentsOfFile:fakeLocationsPath 
+                                                                      encoding:NSUTF8StringEncoding 
+                                                                         error:&error];
+
 		NSString *coordinatesString = [fakeLocationsFile stringByMatching:@"<coordinates>[^-0-9]*(.+?)[^-0-9]*</coordinates>"
 																  options:RKLMultiline|RKLDotAll 
 																  inRange:NSMakeRange(0, fakeLocationsFile.length) 
